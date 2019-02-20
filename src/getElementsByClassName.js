@@ -8,8 +8,7 @@ var getElementsByClassName = function(className, node) {
   // your code here
     var allNodesArr = [];
     if (node === undefined) {
-        node = document.body;
-        allNodesArr.push(node);
+        node = document;
     } 
     var allNodes = node.childNodes;
     allNodes.forEach(function(element) {
