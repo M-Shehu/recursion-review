@@ -44,4 +44,4 @@ var stringifyJSON = function(obj) {
   }
 };
 
-console.log(stringifyJSON({'foo': true, 'bar': false, 'baz': null}));
+// console.log(stringifyJSON({'foo': true, 'bar': false, 'baz': null}));
