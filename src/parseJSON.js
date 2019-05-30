@@ -3,18 +3,21 @@
 
 // but you're not, so you'll write it from scratch:
 var parseJSON = function(json) {
-  function strip(element) {
-    var arr = element.split('');
-    arr.pop();
-    arr.shift();
-    return arr.join('');
+  if (json === undefined) {
+    return null;
+  }
+  if (json === "") {
+    return '';
+  }
+  if (json === "[]") {
+    return [];
+  }
+  if (json === "{}") {
+    return {};
   }
   if (json.charAt(0) === '"' && json.charAt(json.length - 1) === '"') {
     var jsonString = strip(json);
-    return jsonString.toString().trim();
-  }
-  if (json === undefined) {
-    return 1;
+    return jsonString.toString();
   }
   if (json === 'true') {
     return true;
@@ -27,22 +30,31 @@ var parseJSON = function(json) {
     return null;
   }                           
   if (json.charAt(0) === '[' && json.charAt(json.length - 1) === ']') {
+    // debugger;
     var jsonArr = strip(json).split(',');
     return jsonArr.map(function(element) {
       return parseJSON(element.trim());
     })
   }
   if (json.charAt(0) === '{' && json.charAt(json.length - 1) === '}') {
-    var jsonObj = strip(json).split(',');
+    // debugger;
+    var jsonObj = strip(json).split(/(?!\B"[^"]*),(?![^"]*"\B)/);
     var obj = {};
     jsonObj.forEach(function(element) {
       var temporal = element.split(':');
-      obj[parseJSON(temporal[0])] = parseJSON(temporal[1]);
+      // debugger;
+      obj[parseJSON(temporal[0].trim())] = parseJSON(temporal[1].trim());
     });
     return obj;
   }
   if (Number(json) !== NaN) {
     return Number(json);
+  }
+  function strip(element) {
+    var arr = element.split('');
+    arr.pop();
+    arr.shift();
+    return arr.join('');
   }
 };
 console.log(parseJSON('[1, 2, 3, null, true, false]'));
